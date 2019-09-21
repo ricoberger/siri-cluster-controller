@@ -1,0 +1,82 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: siri-cluster-controller
+    app.kubernetes.io/name: siri-cluster-controller
+    app.kubernetes.io/version: 1.0.0
+  name: siri-cluster-controller
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: siri-cluster-controller
+      app.kubernetes.io/instance: siri-cluster-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: siri-cluster-controller
+        app.kubernetes.io/instance: siri-cluster-controller
+    spec:
+      serviceAccountName: siri-cluster-controller
+      containers:
+        - name: siri-cluster-controller
+          image: ricoberger/siri-cluster-controller:1.0.0
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: siri-cluster-controller
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: siri-cluster-controller
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: siri-cluster-controller
+  namespace: default
