@@ -32,9 +32,7 @@ docker-build: build-linux-amd64
 
 docker-publish: docker-build
 	docker tag $(DOCKER_IMAGE):${VERSION} ricoberger/$(DOCKER_IMAGE):${VERSION}
-	docker tag $(DOCKER_IMAGE):${VERSION} docker.pkg.${REPO}/$(DOCKER_IMAGE):${VERSION}
 	docker push ricoberger/$(DOCKER_IMAGE):${VERSION}
-	docker push docker.pkg.${REPO}/$(DOCKER_IMAGE):${VERSION}
 
 release: clean docker-publish
 
