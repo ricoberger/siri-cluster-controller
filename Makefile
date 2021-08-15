@@ -4,7 +4,7 @@ BUILDUSER    ?= $(shell id -un)
 DOCKER_IMAGE ?= siri-cluster-controller
 REPO         ?= github.com/ricoberger/siri-cluster-controller
 REVISION     ?= $(shell git rev-parse HEAD)
-VERSION      ?= 1.0.0#$(shell git describe --tags)
+VERSION      ?= $(shell git describe --tags)
 
 .PHONY: build build-linux-amd64 clean docker-build docker-publish release release-major release-minor release-patch
 
