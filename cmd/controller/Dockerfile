@@ -9,7 +9,7 @@ LABEL git.version=$VERSION
 LABEL git.url="https://github.com/ricoberger/siri-cluster-controller"
 
 RUN apk add --no-cache --update curl ca-certificates
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/linux/amd64/kubectl
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.0/bin/linux/amd64/kubectl
 RUN chmod +x kubectl && mv kubectl /bin/kubectl
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD curl --fail http://localhost:8080/_health || exit 1
 

@@ -1,5 +1,5 @@
 module github.com/ricoberger/siri-cluster-controller
 
-go 1.12
+go 1.16
 
-require github.com/julienschmidt/httprouter v1.2.0
+require github.com/julienschmidt/httprouter v1.3.0
